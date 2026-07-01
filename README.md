@@ -202,15 +202,19 @@ Then create your golden dataset in `data/golden_dataset.json`:
 ## Screenshots
 
 ### Ask the Bot
-![Ask the Bot](docs/screenshots/compressed/1.jpg)
+<p align="center">
+  <img src="docs/screenshots/compressed/1.jpg" width="48%" alt="Ask the Bot — question input" />
+  <img src="docs/screenshots/compressed/2.jpg" width="48%" alt="Ask the Bot — answer and chunks" />
+</p>
 
 ### Run Evaluation
-![Run Evaluation](docs/screenshots/compressed/2.jpg)
+<p align="center">
+  <img src="docs/screenshots/compressed/3.jpg" width="48%" alt="Run Evaluation — config" />
+  <img src="docs/screenshots/compressed/4.jpg" width="48%" alt="Run Evaluation — results" />
+</p>
 
 ### Results History
-![Results History](docs/screenshots/compressed/3.jpg)
-
 <p align="center">
-  <img src="docs/screenshots/compressed/4.jpg" width="48%" alt="Per-question results" />
-  <img src="docs/screenshots/compressed/5.jpg" width="48%" alt="Metric scores" />
+  <img src="docs/screenshots/compressed/5.jpg" width="48%" alt="Results History — metric scores" />
+  <img src="docs/screenshots/compressed/6.jpg" width="48%" alt="Results History — per-question table" />
 </p>
