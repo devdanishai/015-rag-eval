@@ -1,0 +1,63 @@
+# 1. Create and activate venv
+python -m venv .venv
+source .venv/bin/activate
+
+# 2. Install
+pip install -r requirements.txt
+
+# 3. Start Qdrant (first time: docker run; after that: docker start qdrant)
+docker run -d --name qdrant \
+  -p 6333:6333 \
+  -v /mnt/storage/projects/015-rag-eval/data/qdrant:/qdrant/storage \
+  qdrant/qdrant
+
+# 4. Set HF token (get from huggingface.co/settings/tokens)
+export HF_TOKEN=your_token_here   # never commit real tokens
+
+# 5. Start vLLM — app + judge share same endpoint (single 3090)
+VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve Qwen/Qwen2.5-14B-Instruct-AWQ \
+  --quantization awq_marlin \
+  --gpu-memory-utilization 0.85 \
+  --max-model-len 4096 \
+  --port 8000
+
+# 6. Ingest dataset
+python src/ingest.py
+
+# 7. Test a question
+python src/rag_pipeline.py --question "How do I cancel my subscription?"
+
+# 8. Run evaluation (14B used as both app and judge)
+
+python -m src.eval_runner --samples 20 --tag "v1-baseline"
+
+_______________________
+# 1. Activate venv
+source /mnt/storage/projects/015-rag-eval/.venv/bin/activate
+
+# 2. Start Qdrant
+docker start qdrant
+
+# 3. Start vLLM
+cd /mnt/storage/projects/015-rag-eval
+VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve Qwen/Qwen2.5-14B-Instruct-AWQ \
+  --quantization awq_marlin \
+  --gpu-memory-utilization 0.85 \
+  --max-model-len 4096 \
+  --port 8000
+
+#small model
+VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve Qwen/Qwen2.5-7B-Instruct-AWQ   --quantization awq_marlin   --gpu-memory-utilization 0.75   --max-model-len 4096   --port 8000
+ 
+
+streamlit run app.py
+-------
+git init
+git add .
+git status
+
+# create same named repo on github
+git commit -m "Initial commit: RAG eval app with Streamlit UI"
+git branch -m main
+git remote add origin https://github.com/devdanishai/015-rag-eval.git
+git push -u origin main

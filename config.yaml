@@ -1,0 +1,66 @@
+# ─────────────────────────────────────────────
+#  RAG Eval App — central configuration
+# ─────────────────────────────────────────────
+
+# ── vLLM endpoints (OpenAI-compatible) ────────
+llm:
+  app_model:
+    base_url: "http://localhost:8000/v1"
+    model: "Qwen/Qwen2.5-7B-Instruct-AWQ"
+    temperature: 0.1
+    max_tokens: 512
+
+  judge_model:
+    base_url: "http://localhost:8000/v1"   # same GPU as app model
+    model: "Qwen/Qwen2.5-7B-Instruct-AWQ"
+    temperature: 0.0
+    max_tokens: 1500
+
+# ── Embeddings ────────────────────────────────
+embeddings:
+  model: "BAAI/bge-m3"        # runs on CPU or GPU
+  device: "cuda"               # "cpu" if GPU is busy with vLLM
+  batch_size: 32
+
+# ── Qdrant vector store ───────────────────────
+qdrant:
+  url: "http://localhost:6333"
+  collection_name: "support_docs"
+  vector_size: 1024            # bge-m3 output dim
+
+# ── Retrieval settings ────────────────────────
+retrieval:
+  top_k: 5
+  score_threshold: 0.4         # drop chunks below this score
+
+# ── Chunking ──────────────────────────────────
+chunking:
+  chunk_size: 512
+  chunk_overlap: 64
+
+# ── Dataset ───────────────────────────────────
+dataset:
+  hf_name: "bitext/Bitext-customer-support-llm-chatbot-training-dataset"
+  split: "train"
+  sample_size: 100             # rows to use for eval; set to null for all
+  cache_dir: "./data"
+
+# ── Evaluation ────────────────────────────────
+eval:
+  metrics:
+    - faithfulness
+    - answer_relevancy
+    - context_precision
+    - context_recall
+  results_dir: "./results"
+  thresholds:                  # below these → flag as failing
+    faithfulness: 0.75
+    answer_relevancy: 0.70
+    context_precision: 0.65
+    context_recall: 0.65
+
+# ── Langfuse tracing ──────────────────────────
+langfuse:
+  enabled: true
+  host: "http://localhost:3000"  # self-hosted Langfuse
+  # Keys loaded from .env: LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY

@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Data & model cache
+data/
+*.arrow
+*.bin
+*.safetensors
+
+# Results (optional - keep if you want history)
+# results/
+
+# Environment
+.env
+
+# Qdrant storage
+data/qdrant/
+
+# Jupyter
+.ipynb_checkpoints/
