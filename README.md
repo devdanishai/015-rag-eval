@@ -196,3 +196,21 @@ Then create your golden dataset in `data/golden_dataset.json`:
 | **Answer Relevancy** | Answer addresses the question asked | > 0.75 |
 | **Context Precision** | Retrieved chunks are relevant (not noise) | > 0.70 |
 | **Context Recall** | All needed information was retrieved | > 0.70 |
+
+---
+
+## Screenshots
+
+### Ask the Bot
+![Ask the Bot](docs/screenshots/compressed/1.jpg)
+
+### Run Evaluation
+![Run Evaluation](docs/screenshots/compressed/2.jpg)
+
+### Results History
+![Results History](docs/screenshots/compressed/3.jpg)
+
+<p align="center">
+  <img src="docs/screenshots/compressed/4.jpg" width="48%" alt="Per-question results" />
+  <img src="docs/screenshots/compressed/5.jpg" width="48%" alt="Metric scores" />
+</p>
